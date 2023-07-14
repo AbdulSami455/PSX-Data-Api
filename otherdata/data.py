@@ -10,46 +10,45 @@ soup = BeautifulSoup(response.content, 'html.parser')
 #print(soup)
 
 #Function to get Status of Stock Exchange
-def status(soup):
+def status():
  text=soup.find('span',text='Status:')
  span_text = text.next_sibling.strip()
  return span_text
 
 
 #get Number of Stocks
-def trades(soup):
+def trades():
     text = soup.find('span', text='Trades:')
     span_text = text.next_sibling.strip()
     return span_text
 
 
 #function to get Volume of Stock Market
-def volume(soup):
+def volume():
   text = soup.find('span', text='Volume:')
   span_text=text.next_sibling.strip()
   return span_text
 
 
 #get total Companies
-def totalcompanies(soup):
+def totalcompanies():
     text = soup.find('span', text='Total:')
     span_text = text.next_sibling.strip()
     return span_text
 
 
 #total Companies in Profit
-def companiesinprofit(soup):
+def companiesinprofit():
     text = soup.find('span', text='Advanced:')
     span_text = text.next_sibling.strip()
     return span_text
 
 
 #companies in Loss
-def companiesinloss(soup):
+def companiesinloss():
     text = soup.find('span', text='Declined:')
     span_text = text.next_sibling.strip()
     return span_text
 
-
 #
-print(companiesinloss(soup))
+print(companiesinloss())
