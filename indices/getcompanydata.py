@@ -42,6 +42,7 @@ def getcompanyprofile(company):
  return description
 
 
+
 #get equity valeus
 def equityprofile(company):
  url = f'https://dps.psx.com.pk/company/{company}'
@@ -58,3 +59,6 @@ def equityprofile(company):
 
  return freefloatValue
 print(equityprofile(company))
+
+
+
