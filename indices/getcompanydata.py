@@ -38,7 +38,7 @@ def getcompanyprofile(company):
  # Extract the description text
  description = description_div.find('p').get_text(strip=True)
 
- # Print the extracted description
+ # Print the extracted description of data
  return description
 
 
