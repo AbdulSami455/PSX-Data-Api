@@ -40,6 +40,9 @@ def getcompanyprofile(company):
 
  # Print the extracted description
  return description
+
+
+#get equity valeus
 def equityprofile(company):
  url = f'https://dps.psx.com.pk/company/{company}'
 
