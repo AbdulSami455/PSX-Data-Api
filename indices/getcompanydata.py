@@ -35,7 +35,7 @@ def getcompanyprofile(company):
  QuotePrice = soup.select_one('.quote__close').get_text(strip=True)
  description_div = soup.find('div', class_='profile__item--decription')
 
- # Extract the description text
+ # Extract the description textasa
  description = description_div.find('p').get_text(strip=True)
 
  # Print the extracted description of data
