@@ -13,3 +13,4 @@ def notice():
  for h2 in h2_tags:
     print(h2.get_text())
 
+
