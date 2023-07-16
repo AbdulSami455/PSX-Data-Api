@@ -5,7 +5,9 @@ from jose import JWTError, jwt
 from passlib.context import  CryptContext
 from datetime import datetime, timedelta
 from pydantic import BaseModel
-from otherdata.data import volume
+from otherdata.data import volume,status,companiesinloss,companiesinprofit,totalcompanies,trades
+from sectorwise.sectors import somesector,numberofshare,indicesshare,sectorsshare
+
 SECRET_KEY = "27437940fd78c03104d9ab1d38095d187a96cf8aeeb1f5d74dde00afe6aa423f"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 120
@@ -78,6 +80,8 @@ async def protected_route(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/t
 
     return {"message": "You are authenticated!"}
 
+
+
 @app.get("/volume")
 async def find_volume(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
     try:
@@ -86,11 +90,97 @@ async def find_volume(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token
         if username is None:
             raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
-        # Perform the volume calculation or any other protected operation
+        # Perform the volume calculation or any other protected operatio
         answer = volume()
 
         return {"Total Volume of Stock Market": answer}
 
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+
+@app.get("/status")
+def findstatus(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = status()
+
+        return {"Status of Stock Market is ": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+@app.get("/tradesinstockmarket")
+def totaltrades(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = trades()
+
+        return {"total trades done in stock market are ": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+
+@app.get("/totalcompanies")
+def totalcompanies(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = totalcompanies()
+
+        return {"total trades done in stock market are ": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+@app.get("/companiesinloss")
+def companiesinloss(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = companiesinloss()
+
+        return {"total trades done in stock market are ": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+
+@app.get("/companiesinprofit")
+def companiesinprofit(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = companiesinprofit()
+
+        return {"total trades done in stock market are ": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+@app.get("/sectors")
+def allsectors(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
 
