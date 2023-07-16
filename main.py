@@ -8,6 +8,7 @@ from otherdata.data import volume
 app=FastAPI()
 
 @app.get("/volume")
-def volume():
+def volumefind():
     answer=volume()
     return {"Volume":answer}
+
