@@ -2,7 +2,7 @@ import random
 
 from fastapi import FastAPI,Response,status,HTTPException,Depends
 from fastapi.params import Body
-from otherdata.data import volume,status,trades,totalcompanies
+from otherdata.data import volume,status,trades,totalcompanies,companiesinprofit,companiesinloss
 
 
 app=FastAPI()
@@ -27,3 +27,7 @@ def companiesfound():
     answer=totalcompanies()
     return {"Total Companies":answer}
 
+@app.get("/companiesinprofit")
+def companiesinprofitfound():
+    answer=companiesinprofit()
+    return {"Number of Companies in Profit":answer}
