@@ -1,92 +1,79 @@
 import random
-
-from fastapi import FastAPI,Response,status,HTTPException,Depends
-from fastapi.params import Body
-from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
-from otherdata.data import volume,status,trades,totalcompanies,companiesinprofit,companiesinloss
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import  CryptContext
+from datetime import datetime, timedelta
 from pydantic import BaseModel
-from datetime import datetime,timedelta
-from jose import JWTError,jwt
-from passlib.context import CryptContext
 
-
-SECRET_KEY="e12e7c906399ccd916412da0ce9013698159e819a8dbe989cc31251823d9fe5c"
-ALGORITHM="HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-
-class data(BaseModel):
-    name:str
-
-fake_db={"sami":{
-    "username":"sami",
-    "full_name":"Abdul Sami",
-    "email":"sami@gmail.com",
-    "hashed_password":"",
-    "disabled":False
-
-}}
-
-class Token(BaseModel):
-   access_type:str
-   token_type:str
-
-class Tokendata(BaseModel):
-    username:str or None=None
+SECRET_KEY = "27437940fd78c03104d9ab1d38095d187a96cf8aeeb1f5d74dde00afe6aa423f"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 class User(BaseModel):
-    username:str
-    email:str or None = None
-    full_name:str or None=None
+    username: str
+    password: str
 
-class userindb(User):
-    hashed_password:str
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 
-pwd_context=CryptContext(schemes=["bcrypt"],deprecated="auto")
+fake_users_db = {}
 
-app=FastAPI()
+new_username = "abdulsami"
+new_password = "1234"
 
-def verify_password(plain_password,hashed_password):
-    return pwd_context.verify(plain_password,hashed_password)
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
     return pwd_context.hash(password)
 
-def get_user(db,username:str):
-    if username in db:
-        user_data=db[username]
-        return userindb(""user_data)
+fake_users_db[new_username] = {
+    "username": new_username,
+    "hashed_password": get_password_hash(new_password),
+}
 
+def authenticate_user(username: str, password: str):
+    if username in fake_users_db:
+        user = fake_users_db[username]
+        if verify_password(password, user["hashed_password"]):
+            return user
 
+    return None
 
+def create_access_token(data: dict, expires_delta: timedelta):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + expires_delta
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
 
+app = FastAPI()
 
+@app.post("/token", response_model=Token)
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = authenticate_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(status_code=400, detail="Incorrect username or password")
 
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user["username"]}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
 
-@app.post("/index")
-def fgfg(name:data):
-    return {"hello":name}
+@app.get("/protected")
+async def protected_route(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
-@app.get("/volume")
-def volumefind():
-    answer=volume()
-    return {"Volume":answer}
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
-@app.get("/status")
-def statusfind():
-    answer=status()
-    return {"Market Status":answer}
-
-@app.get("/trades")
-def tradesfind():
-    answer=trades()
-    return {"Total Trades":answer}
-
-@app.get("/totalcompanies")
-def companiesfound():
-    answer=totalcompanies()
-    return {"Total Companies":answer}
-
-@app.get("/companiesinprofit")
-def companiesinprofitfound():
-    answer=companiesinprofit()
-    return {"Number of Companies in Profit":answer}
+    return {"message": "You are authenticated!"}
