@@ -5,10 +5,10 @@ from jose import JWTError, jwt
 from passlib.context import  CryptContext
 from datetime import datetime, timedelta
 from pydantic import BaseModel
-
+from otherdata.data import volume
 SECRET_KEY = "27437940fd78c03104d9ab1d38095d187a96cf8aeeb1f5d74dde00afe6aa423f"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 120
 
 class User(BaseModel):
     username: str
@@ -77,3 +77,20 @@ async def protected_route(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/t
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
     return {"message": "You are authenticated!"}
+
+@app.get("/volume")
+async def find_volume(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operation
+        answer = volume()
+
+        return {"Total Volume of Stock Market": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
