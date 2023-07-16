@@ -51,4 +51,4 @@ def companiesinloss():
     return span_text
 
 #
-print(companiesinloss())
+#print(companiesinloss())
