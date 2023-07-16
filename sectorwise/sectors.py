@@ -55,4 +55,14 @@ def somesector():
 
  print(names)
 
-somesector()
+def sectorsshare():
+    pic='https://imgtr.ee/image/jG1br'
+    return pic
+#somesector()
+def indicesshare():
+    pic='https://imgtr.ee/image/jGQrC'
+    return pic
+
+def numberofshare():
+    pic='https://imgtr.ee/image/jGdRG'
+    return pic
