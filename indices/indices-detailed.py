@@ -29,7 +29,7 @@ def listofcompanieswithprofit():
 
  return list
 
-#list
+#list of all indices
 
 def listofindices():
 
