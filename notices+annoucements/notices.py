@@ -8,9 +8,8 @@ response = requests.get(url)
 # Create a BeautifulSoup object by passing the HTML content and specify the parser
 soup = BeautifulSoup(response.content, 'html.parser')
 
-def notice():
+def latestnotice():
  h2_tags = soup.find_all('h2')
  for h2 in h2_tags:
-    print(h2.get_text())
-
+    return h2.get_text()
 
