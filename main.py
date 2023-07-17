@@ -150,7 +150,7 @@ def totalcompanies(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
 @app.get("/companiesinloss")
-def companiesinloss(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+def companiesinlossfind(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
