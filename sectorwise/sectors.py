@@ -53,7 +53,7 @@ def somesector():
     if option['value'] == '0830':  # Value for "TEXTILE SPINNING"
         found = True
 
- print(names)
+ return names
 
 def sectorsshare():
     pic='https://imgtr.ee/image/jG1br'
