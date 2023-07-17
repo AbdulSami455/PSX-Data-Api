@@ -277,6 +277,8 @@ def alllistindices(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
+
+#get index value
 @app.get("/getindex")
 def getindexvalue(indexname:str,token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
     try:
