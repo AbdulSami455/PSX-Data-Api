@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from pydantic import BaseModel
 from otherdata.data import volume,status,companiesinloss,companiesinprofit,totalcompanies,trades
 from sectorwise.sectors import somesector,numberofshare,indicesshare,sectorsshare
+from indices.getcompanydata import companydata,getcompanyprofile,equityprofile
 
 SECRET_KEY = "27437940fd78c03104d9ab1d38095d187a96cf8aeeb1f5d74dde00afe6aa423f"
 ALGORITHM = "HS256"
@@ -159,7 +160,7 @@ def companiesinloss(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token")
         # Perform the volume calculation or any other protected operatio
         answer = companiesinloss()
 
-        return {"total trades done in stock market are ": answer}
+        return {"Number of Companies in Loss ": answer}
 
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
@@ -176,11 +177,55 @@ def companiesinprofit(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token
         # Perform the volume calculation or any other protected operatio
         answer = companiesinprofit()
 
-        return {"total trades done in stock market are ": answer}
+        return {"Number of Companies in Profit ": answer}
 
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
 @app.get("/sectors")
 def allsectors(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
+        # Perform the volume calculation or any other protected operatio
+        answer = somesector()
+
+        return {"All Listed Sectors ": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+@app.get("/sectorgraph")
+def sectorgraph(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = sectorsshare()
+
+        return {"All Listed Sectors ": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+@app.post("/{company}/getalldata")
+def getcompanyalldata(company:str,token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = companydata(company)
+
+        return {"companydata": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
