@@ -229,3 +229,35 @@ def getcompanyalldata(company:str,token: str = Depends(OAuth2PasswordBearer(toke
 
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+@app.post("/{company}/descprition")
+def descrpitionofcompany(company:str,token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = getcompanyprofile(company)
+
+        return {"Company Details": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+@app.post("/{company}/equitydata")
+def equitydatacompany(company:str,token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = equityprofile(company)
+
+        return {"Company Details": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
