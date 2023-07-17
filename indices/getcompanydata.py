@@ -58,7 +58,8 @@ def equityprofile(company):
  freefloat = soup.find('div', class_='stats_label', text='Free Float')
  freefloatValue = freefloat.find_next_sibling('div', class_='stats_value').get_text(strip=True)
 
- return freefloatValue
+ dict={"Total Shares":sharesValue,"Free Floating Shares":freefloatValue}
+ return dict
 
 
 
