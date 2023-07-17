@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-company='ASC'
+company="ASC"
 def companydata(company):
  url = f'https://dps.psx.com.pk/company/{company}'
 
@@ -23,7 +23,8 @@ def companydata(company):
  Volumelabel = soup.find('div', class_='stats_label', text='Volume')
  VolumeValue = Volumelabel.find_next_sibling('div', class_='stats_value').get_text(strip=True)
 
- return VolumeValue
+ dict={"Open":OpenValue,"High":highValue,"Low":lowValue,"Volume":VolumeValue}
+ return dict
 
 def getcompanyprofile(company):
  url = f'https://dps.psx.com.pk/company/{company}'
@@ -58,7 +59,6 @@ def equityprofile(company):
  freefloatValue = freefloat.find_next_sibling('div', class_='stats_value').get_text(strip=True)
 
  return freefloatValue
-print(equityprofile(company))
 
 
 
