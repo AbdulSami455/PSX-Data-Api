@@ -26,8 +26,10 @@ def listofcompanieswithprofit():
     td1 = tr.find('td')
     text = td1.get_text(strip=True)
     list.append(text)
+
  return list
 
+#list
 
 def listofindices():
 
