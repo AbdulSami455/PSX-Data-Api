@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from otherdata.data import volume,status,companiesinloss,companiesinprofit,totalcompanies,trades
 from sectorwise.sectors import somesector,numberofshare,indicesshare,sectorsshare
 from indices.getcompanydata import companydata,getcompanyprofile,equityprofile
-
+from indices.idetail import getindices,listofindices,listofcompanieswithprofit
 SECRET_KEY = "27437940fd78c03104d9ab1d38095d187a96cf8aeeb1f5d74dde00afe6aa423f"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 120
@@ -258,6 +258,37 @@ def equitydatacompany(company:str,token: str = Depends(OAuth2PasswordBearer(toke
         answer = equityprofile(company)
 
         return {"Company Details": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+@app.get("/allindices")
+def alllistindices(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = listofindices()
+
+        return {"All Indices": answer}
+
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+@app.get("/getindex")
+def getindexvalue(indexname:str,token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid authentication credentials")
+
+        # Perform the volume calculation or any other protected operatio
+        answer = getindices(indexname)
+
+        return {"Index Value Now": answer}
 
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
