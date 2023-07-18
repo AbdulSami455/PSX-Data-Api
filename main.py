@@ -82,6 +82,9 @@ async def protected_route(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/t
     return {"message": "You are authenticated!"}
 
 
+@app.get("/")
+def hello():
+    return{"Message":"Welcome to Pakistan First Stock Api"}
 
 @app.get("/volume")
 async def find_volume(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
