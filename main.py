@@ -9,6 +9,8 @@ from otherdata.data import volume,status,companiesinloss,companiesinprofit,total
 from sectorwise.sectors import somesector,numberofshare,indicesshare,sectorsshare
 from indices.getcompanydata import companydata,getcompanyprofile,equityprofile
 from indices.idetail import getindices,listofindices,listofcompanieswithprofit
+from fastapi.responses import PlainTextResponse
+
 SECRET_KEY = "27437940fd78c03104d9ab1d38095d187a96cf8aeeb1f5d74dde00afe6aa423f"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 120
@@ -81,6 +83,11 @@ async def protected_route(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/t
 
     return {"message": "You are authenticated!"}
 
+
+
+@app.get("/favicon.ico", response_class=PlainTextResponse)
+async def favicon():
+    return "No favicon"
 
 @app.get("/")
 def hello():
