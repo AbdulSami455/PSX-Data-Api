@@ -57,6 +57,13 @@ def create_access_token(data: dict, expires_delta: timedelta):
     return encoded_jwt
 
 app = FastAPI()
+@app.get("/")
+def hello():
+    return{"Message":"Welcome to Pakistan First Stock Api"}
+@app.get("/favicon.ico", response_class=PlainTextResponse)
+async def favicon():
+    return "No favicon"
+
 
 @app.post("/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -85,13 +92,7 @@ async def protected_route(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/t
 
 
 
-@app.get("/favicon.ico", response_class=PlainTextResponse)
-async def favicon():
-    return "No favicon"
 
-@app.get("/")
-def hello():
-    return{"Message":"Welcome to Pakistan First Stock Api"}
 
 @app.get("/volume")
 async def find_volume(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
