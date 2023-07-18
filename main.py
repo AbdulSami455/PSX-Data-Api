@@ -278,7 +278,7 @@ def alllistindices(token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))
         raise HTTPException(status_code=401, detail="Invalid authentication credentials")
 
 
-#get index value
+#get Value of ANy index
 @app.get("/getindex")
 def getindexvalue(indexname:str,token: str = Depends(OAuth2PasswordBearer(tokenUrl="/token"))):
     try:
