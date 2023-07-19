@@ -25,25 +25,31 @@ Response:
 𝗣𝗢𝗦𝗧 /𝘁𝗼𝗸𝗲𝗻
 
 Description: This endpoint allows users to obtain an access token by providing valid credentials (username and password).
-#Request Body:
+
+Request Body:
 
  
    {
   "username": "string",
+  
   "password": "string"
    }
 
-#Response:
+Response:
 
 {
-  "access_token": "string",
+
+"access_token": "string",
+
   "token_type": "bearer"
 }
 
 𝗚𝗘𝗧 /𝗽𝗿𝗼𝘁𝗲𝗰𝘁𝗲𝗱
 
 Description: This is a protected endpoint that requires authentication using an access token. It validates the token and returns a message if the user is authenticated.
+
 Authorization: Bearer Token
+
 Response:
 
   {"message": "You are authenticated!"}
@@ -52,12 +58,19 @@ Response:
 
 
 GET /volume: Get the total volume of the stock market.
+
 GET /status: Get the status of the stock market.
+
 GET /tradesinstockmarket: Get the total number of trades done in the stock market.
+
 GET /totalcompanies: Get the total number of companies listed in the stock market.
+
 GET /companiesinloss: Get the number of companies in loss.
+
 GET /companiesinprofit: Get the number of companies in profit.
+
 GET /sectors: Get all listed sectors in the stock market.
+
 GET /sectorgraph: Get data related to sectors in graphical format.
 
 𝗖𝗼𝗺𝗽𝗮𝗻𝘆 𝗗𝗮𝘁𝗮 𝗘𝗻𝗱𝗽𝗼𝗶𝗻𝘁𝘀
@@ -65,7 +78,9 @@ GET /sectorgraph: Get data related to sectors in graphical format.
 The following endpoints provide access to data related to specific companies:
 
 POST /{company}/getalldata: Get all data related to a specific company.
+
 POST /{company}/description: Get the description of a specific company.
+
 POST /{company}/equitydata: Get equity data of a specific company.
 
 
@@ -74,6 +89,7 @@ POST /{company}/equitydata: Get equity data of a specific company.
 The following endpoints provide access to data related to stock market indices:
 
 GET /allindices: Get all stock market indices.
+
 GET /getindex: Get the value of a specific index.
 
 
