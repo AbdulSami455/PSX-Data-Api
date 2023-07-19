@@ -30,19 +30,11 @@ Request Body:
 
  
    {
-  "username": "string",
-  
-  "password": "string"
-   }
+     "username": "string","password": "string}
 
 Response:
 
-{
-
-"access_token": "string",
-
-  "token_type": "bearer"
-}
+{"access_token": "string", "token_type": "bearer"}
 
 𝗚𝗘𝗧 /𝗽𝗿𝗼𝘁𝗲𝗰𝘁𝗲𝗱
 
@@ -91,6 +83,19 @@ The following endpoints provide access to data related to stock market indices:
 GET /allindices: Get all stock market indices.
 
 GET /getindex: Get the value of a specific index.
+
+𝗨𝘀𝗮𝗴𝗲
+
+
+To use this API, you need to obtain an access token by making a POST request to the /token endpoint with valid credentials. Once you have the access token, you can use it to access protected endpoints by including it in the Authorization header of your requests (Bearer Token).
+
+
+curl -X POST "https://your-api-url/token" -d "username=your_username&password=your_password"
+
+After obtaining the access token, you can use it to access protected endpoints:
+
+curl -X GET "https://your-api-url/volume" -H "Authorization: Bearer your_access_token"
+
 
 
 
