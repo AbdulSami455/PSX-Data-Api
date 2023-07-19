@@ -97,7 +97,10 @@ After obtaining the access token, you can use it to access protected endpoints:
 curl -X GET "https://your-api-url/volume" -H "Authorization: Bearer your_access_token"
 
 
+𝗗𝗲𝗽𝗹𝗼𝘆𝗺𝗲𝗻𝘁
 
+
+This API is deployed on Heroku. The deployment process involves creating a Heroku app and pushing the code to the Heroku remote repository. Ensure that all necessary dependencies are listed in the requirements.txt file for successful deployment.
 
 
 
