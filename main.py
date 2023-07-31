@@ -1,3 +1,4 @@
+import os
 import random
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -57,6 +58,7 @@ def create_access_token(data: dict, expires_delta: timedelta):
     return encoded_jwt
 
 app = FastAPI()
+
 @app.get("/")
 def hello():
     return{"Message":"Welcome to Pakistan First Stock Api"}
