@@ -11,6 +11,9 @@ from sectorwise.sectors import somesector,numberofshare,indicesshare,sectorsshar
 from indices.getcompanydata import companydata,getcompanyprofile,equityprofile
 from indices.idetail import getindices,listofindices,listofcompanieswithprofit
 from fastapi.responses import PlainTextResponse
+from mangum import Mangum
+
+
 
 SECRET_KEY = "27437940fd78c03104d9ab1d38095d187a96cf8aeeb1f5d74dde00afe6aa423f"
 ALGORITHM = "HS256"
@@ -59,6 +62,7 @@ def create_access_token(data: dict, expires_delta: timedelta):
 
 app = FastAPI()
 
+handler=Mangum(app)
 @app.get("/")
 def hello():
     return{"Message":"Welcome to Pakistan First Stock Api"}
