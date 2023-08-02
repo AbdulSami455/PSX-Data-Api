@@ -62,6 +62,7 @@ def create_access_token(data: dict, expires_delta: timedelta):
 
 app = FastAPI()
 
+#Magnum for AWS
 handler=Mangum(app)
 @app.get("/")
 def hello():
