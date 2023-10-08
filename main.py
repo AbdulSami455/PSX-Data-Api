@@ -3,7 +3,7 @@ import random
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
-from passlib.context import  CryptContext
+from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from pydantic import BaseModel
 from otherdata.data import volume,status,companiesinloss,companiesinprofit,totalcompanies,trades
@@ -63,7 +63,7 @@ def create_access_token(data: dict, expires_delta: timedelta):
 app = FastAPI()
 
 #Magnum for AWS
-handler=Mangum(app)
+#handler=Mangum(app)
 @app.get("/")
 def hello():
     return{"Message":"Welcome to Pakistan First Stock Api"}
